@@ -6,7 +6,7 @@
 /*   By: tchian <tchian@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/22 21:17:13 by tchian            #+#    #+#             */
-/*   Updated: 2026/10/25 15:59:59 by tchian           ###   ########.fr       */
+/*   Updated: 2026/10/25 16:43:28 by tchian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,4 @@ char	*ft_strdup(const char *s1)
 	}
 	copy[i] = '\0';
 	return (copy);
-}
-
-char	*leftover(char *stash)
-{
-	size_t	i;
-
-	if (!stash)
-		return (NULL);
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	if (!stash[i])
-		return (NULL);
-	return (ft_strdup(stash + i + 1));
 }

@@ -6,44 +6,47 @@
 /*   By: tchian <tchian@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/24 22:46:52 by tchian            #+#    #+#             */
-/*   Updated: 2026/10/25 15:59:09 by tchian           ###   ########.fr       */
+/*   Updated: 2026/10/25 17:03:51 by tchian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	read_once(int fd, char **stash, char *bufer)
+static int	read_strj(int fd, char *buffer, char *stash)
 {
+	char	*tmp;
 	ssize_t	n;
-	char	*temp;
 
-	n = read(fd, bufer, BUFFER_SIZE);
+	n = read(fd, buffer, BUFFER_SIZE);
 	if (n < 0)
 		return (-1);
 	if (n == 0)
 		return (0);
 	buffer[n] = '\0';
-	tmp = ft_strjoin(*stash, buffer);
-	free(*stash);
-	*stash = tmp;
+	tmp = ft_strjoin(stash, buffer);
 	if (!tmp)
+	{
 		return (-1);
+	}
+	free(stash);
+	stash = tmp;
 	return (1);
 }
 
-static char	*read_to_stash(int fd, char *stash)
+static char	*fill_stash(int fd, char *stash)
 {
 	char	*buffer;
 	int		status;
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
-		return (NULL);
-	status = 1;
-	while (status > 0 && !ft_strchr(stash, '\n'))
 	{
-		status = read_once(fd, &stash, buffer);
+		free(stash);
+		return (NULL);
 	}
+	status = 1;
+	while (status > 0 && ft_strchr(stash, '\n') == NULL)
+		status = read_strj(fd, buffer, &stash);
 	free(buffer);
 	if (status < 0)
 	{
@@ -53,38 +56,30 @@ static char	*read_to_stash(int fd, char *stash)
 	return (stash);
 }
 
-static size_t	line_len(char *stash)
+static char	*make_line(char *stash)
 {
-	size_t	i;
+	char	*newl;
+	char	*line;
+	char	temp;
 
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	if (stash[i] == '\n')
-		i++;
-	return (i);
+	newl = ft_strchr(stash, '\n');
+	if (!newl)
+		return (ft_strdup(stash));
+	temp = newl[1];
+	newl[1] = '\0';
+	line = ft_strdup(stash);
+	newl[1] = temp;
+	return (line);
 }
 
-static char	*extract_line(char *stash)
+static char	*leftover(char *stash)
 {
-	char	*line;
-	size_t	len;
-	size_t	i;
+	char	*newl;
 
-	if (!stash || !*stash)
+	newl = ft_strchr(stash, '\n');
+	if (!newl || !*(newl +1))
 		return (NULL);
-	len = line_len(stash);
-	line = malloc(sizeof(char) * (len + 1));
-	if (!line)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		line[i] = stash[i];
-		i++;
-	}
-	line[len] = '\0';
-	return (line);
+	return (ft_strdup(newl + 1));
 }
 
 char	*get_next_line(int fd)
@@ -102,7 +97,7 @@ char	*get_next_line(int fd)
 		stash = NULL;
 		return (NULL);
 	}
-	line = extract_line(stash);
+	line = make_line(stash);
 	if (!line)
 	{
 		free(stash);
