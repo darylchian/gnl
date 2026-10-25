@@ -6,7 +6,7 @@
 /*   By: tchian <tchian@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/22 21:17:13 by tchian            #+#    #+#             */
-/*   Updated: 2026/10/25 16:43:28 by tchian           ###   ########.fr       */
+/*   Updated: 2026/10/25 20:39:28 by tchian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c, size_t *pos)
+char	*ft_strchr(const char *s, int c)
 {
 	size_t	i;
 

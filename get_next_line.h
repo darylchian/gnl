@@ -6,7 +6,7 @@
 /*   By: tchian <tchian@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/22 21:17:13 by tchian            #+#    #+#             */
-/*   Updated: 2026/10/25 15:58:29 by tchian           ###   ########.fr       */
+/*   Updated: 2026/10/25 20:36:49 by tchian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,5 @@ char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strdup(const char *s1);
-char	*leftover(char *stash);
 
 #endif
